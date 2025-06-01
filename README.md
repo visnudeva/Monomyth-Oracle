@@ -1,3 +1,6 @@
+![screenshot1](https://github.com/visnudeva/dot-files/blob/main/20230505_12h09m51s_grim.png)
+
+
 # The Monomyth Oracle - English Version
 
 
