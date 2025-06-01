@@ -8,10 +8,97 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* CSS Variables for Dark Theme */
+        :root {
+            --bg-color: #1a202c;
+            --text-color: #e2e8f0;
+            --container-bg: #2d3748;
+            --popup-bg: #2d3748;
+            --card-name-color: #63b3ed; /* Original blue for card names in dark theme */
+            --main-title-color: #63b3ed; /* Original blue for main title in dark theme */
+
+            /* Dark theme specific button colors */
+            --dark-button-primary-bg: #007bff;
+            --dark-button-primary-hover-bg: #0056b3;
+            --dark-button-primary-border: #007bff;
+            --dark-button-active-bg: #007bff;
+            --dark-button-active-border: #007bff;
+
+            /* Draw Card button in dark theme */
+            --dark-draw-card-bg: transparent; /* Changed to no background */
+            --dark-draw-card-text: #dc3545; /* Red text */
+            --dark-draw-card-border: #dc3545; /* Red border */
+            --dark-draw-card-hover-bg: #dc3545; /* Changed to red background on hover */
+            --dark-draw-card-hover-text: #ffffff; /* Changed to white text on hover */
+            --dark-draw-card-hover-border: #dc3545; /* Red border on hover */
+
+            /* English Version button in dark theme (non-active) */
+            --dark-english-deck-text: #007bff; /* Blue text */
+            --dark-english-deck-border: #007bff; /* Blue border */
+            --dark-english-deck-hover-bg: #007bff; /* Changed to blue background on hover */
+            --dark-english-deck-hover-text: #ffffff; /* Changed to white text on hover */
+            --dark-english-deck-hover-border: #007bff; /* Blue border on hover */
+
+            /* French Version button in dark theme (non-active) */
+            --dark-french-deck-text: #ffc107; /* Yellow text */
+            --dark-french-deck-border: #ffc107; /* Yellow border */
+            --dark-french-deck-hover-bg: #ffc107; /* Yellow background on hover */
+            --dark-french-deck-hover-text: #ffffff; /* White text on hover */
+            --dark-french-deck-hover-border: #ffc107; /* Yellow border on hover */
+
+            /* Theme toggle button in dark theme */
+            --dark-theme-toggle-bg: transparent; /* Transparent background */
+            --dark-theme-toggle-border: var(--text-color); /* Light gray border */
+            --dark-theme-toggle-hover-bg: rgba(255, 255, 255, 0.1); /* Slight hover effect */
+            --dark-theme-toggle-shadow: 0 0 10px rgba(255, 193, 7, 0.7); /* Yellow shadow */
+        }
+
+        /* CSS Variables for Light Theme */
+        body.light-theme {
+            --bg-color: #ffffff; /* White background */
+            --text-color: #000000; /* Black text */
+            --container-bg: #ffffff; /* White container */
+            --popup-bg: #ffffff;
+            --card-name-color: #dc3545; /* Red for card names in light theme */
+            --main-title-color: #007bff; /* Blue for main title in light theme */
+
+            /* Light theme specific button colors */
+            --button-bg: #007bff; /* Blue for primary buttons (like Draw Card default background) */
+            --button-hover-bg: #0056b3; /* Darker blue on hover for primary buttons */
+            --button-border: #007bff;
+            --button-active-bg: #007bff;
+            --button-active-border: #007bff;
+
+            /* Draw Card button in light theme */
+            --draw-card-button-bg-light: #ffffff; /* White background for draw card button in light theme */
+            --draw-card-button-border-light: #dc3545; /* Red border for draw card button */
+            --draw-card-button-text-light: #dc3545; /* Red text for draw card button */
+            --draw-card-button-hover-bg-light: #dc3545; /* Red background on hover for draw card button */
+            --draw-card-button-hover-text-light: #ffffff; /* White text on hover for draw card button */
+            --draw-card-button-hover-border-light: #dc3545; /* Red border on hover */
+
+            /* Deck buttons in light theme (non-active) */
+            --button-default-bg-light-theme-outline: transparent;
+            --button-default-border-light-theme-outline: #ffc107; /* Yellow border */
+            --button-default-text-light-theme-outline: #ffc107; /* Yellow text */
+            --button-default-hover-bg-light-theme-filled: #e0a800; /* Darker yellow on hover for filled deck buttons */
+            --button-default-hover-text-light-theme-filled: #ffffff; /* White text for filled deck buttons */
+            --button-default-hover-border-light-theme-filled: #e0a800; /* Darker yellow border on hover */
+
+            /* Active deck button in light theme */
+            --active-deck-button-text-light: #ffffff; /* White text for active deck button in light theme */
+
+            /* Theme toggle button in light theme */
+            --theme-toggle-bg-light: #ffffff; /* White background */
+            --theme-toggle-border-light: var(--text-color); /* Black border */
+            --theme-toggle-hover-bg-light: #f0f0f0; /* Slight hover effect */
+            --theme-toggle-shadow-light: 0 0 10px rgba(0, 123, 255, 0.7); /* Blue shadow for light theme */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #1a202c; /* Dark theme background */
-            color: #e2e8f0; /* Light text color */
+            background-color: var(--bg-color);
+            color: var(--text-color);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,9 +106,11 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth theme transition */
         }
         .container {
-            background-color: #2d3748; /* Darker container background */
+            position: relative; /* Needed for absolute positioning of theme toggle button */
+            background-color: var(--container-bg);
             border-radius: 1rem; /* Rounded corners */
             padding: 2rem;
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
@@ -36,58 +125,175 @@
             flex-direction: column;
             justify-content: space-between; /* Distribute space between elements */
             gap: 1rem; /* Space between elements */
+            transition: background-color 0.3s ease; /* Smooth theme transition */
         }
-        /* Styling for all buttons */
+        /* Styling for all common buttons (default for dark theme unless overridden) */
         button {
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
-            border: 1px solid #4a5568;
-            background-color: #4299e1; /* Blue button */
-            border-color: #4299e1;
-            color: #e2e8f0;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
-        }
-        button:hover {
-            background-color: #3182ce; /* Darker blue on hover */
-        }
-        button:focus {
-            outline: none;
-            border-color: #63b3ed;
-            box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.5);
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            outline: none; /* Remove default focus outline */
         }
 
-        /* Specific styling for the draw card button to match deck buttons */
+        /* Draw Card Button Styles */
         #draw-card-button {
             width: 80%; /* Make it narrower */
             max-width: 200px; /* Limit max width */
             margin: 0 auto; /* Center the button */
         }
 
-        /* Styling for deck selection buttons */
+        /* Dark Theme specific styles for Draw Card button */
+        body:not(.light-theme) #draw-card-button {
+            background-color: var(--dark-draw-card-bg);
+            border: 1px solid var(--dark-draw-card-border);
+            color: var(--dark-draw-card-text);
+        }
+        body:not(.light-theme) #draw-card-button:hover {
+            background-color: var(--dark-draw-card-hover-bg);
+            color: var(--dark-draw-card-hover-text);
+            border-color: var(--dark-draw-card-hover-border);
+        }
+
+        /* Light Theme specific styles for Draw Card button */
+        body.light-theme #draw-card-button {
+            background-color: var(--draw-card-button-bg-light);
+            border: 1px solid var(--draw-card-button-border-light);
+            color: var(--draw-card-button-text-light);
+        }
+        body.light-theme #draw-card-button:hover {
+            background-color: var(--draw-card-button-hover-bg-light);
+            color: var(--draw-card-button-hover-text-light);
+            border-color: var(--draw-card-button-hover-border-light);
+        }
+
+
+        /* Deck Selection Buttons Styles */
         .deck-selection-buttons {
             display: flex;
-            flex-direction: column; /* Changed to column to stack buttons vertically */
-            gap: 0.75rem; /* Adjusted gap for vertical layout */
+            flex-direction: column;
+            gap: 0.75rem;
             justify-content: center;
-            align-items: center; /* Center buttons horizontally */
+            align-items: center;
         }
         .deck-selection-buttons .deck-button {
-            width: 80%; /* Make buttons narrower to fit card width better */
-            max-width: 200px; /* Max width for individual buttons */
-            background-color: #4a5568; /* Default button background */
-            border-color: #4a5568;
+            width: 80%;
+            max-width: 200px;
         }
+
+        /* Dark Theme specific styles for the single deck toggle button */
+        body:not(.light-theme) .deck-selection-buttons .deck-button {
+            background-color: transparent;
+            /* Default to yellow border/text for French, overridden for English below */
+            border: 1px solid var(--dark-french-deck-border);
+            color: var(--dark-french-deck-text);
+        }
+        body:not(.light-theme) .deck-selection-buttons .deck-button[data-deck-id="english"] {
+            border: 1px solid var(--dark-english-deck-border); /* Blue border for English */
+            color: var(--dark-english-deck-text); /* Blue text for English */
+        }
+
+        /* Dark Theme specific styles for the single deck toggle button hover */
+        body:not(.light-theme) .deck-selection-buttons .deck-button:hover {
+            /* Default hover for French (yellow background, white text) */
+            background-color: var(--dark-french-deck-hover-bg);
+            color: var(--dark-french-deck-hover-text);
+            border-color: var(--dark-french-deck-hover-border);
+        }
+        body:not(.light-theme) .deck-selection-buttons .deck-button[data-deck-id="english"]:hover {
+            /* Hover for English (blue background, white text) */
+            background-color: var(--dark-english-deck-hover-bg);
+            color: var(--dark-english-deck-hover-text);
+            border-color: var(--dark-english-deck-hover-border);
+        }
+
+
+        /* Common Active state for deck buttons (applies to both themes, uses primary blue) */
+        /* This rule is less relevant now as we only have one toggle button, not active/inactive pairs */
         .deck-selection-buttons .deck-button.active {
-            background-color: #4299e1; /* Active button color */
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.5);
+            background-color: var(--button-active-bg);
+            border-color: var(--button-active-border);
+            color: var(--text-color);
         }
-        .deck-selection-buttons .deck-button:hover:not(.active) {
-            background-color: #5a6270; /* Slightly lighter on hover for non-active */
+
+        /* Override for active deck button text in light theme (less relevant now) */
+        body.light-theme .deck-selection-buttons .deck-button.active {
+            color: var(--active-deck-button-text-light);
         }
+
+        /* Light theme specific styles for the single deck toggle button */
+        body.light-theme .deck-selection-buttons .deck-button {
+            background-color: var(--button-default-bg-light-theme-outline);
+            border: 1px solid var(--button-default-border-light-theme-outline);
+            color: var(--button-default-text-light-theme-outline);
+        }
+        /* Light theme specific hover for the French button (yellow) */
+        body.light-theme .deck-selection-buttons .deck-button[data-deck-id="french"]:hover {
+            background-color: var(--button-default-hover-bg-light-theme-filled);
+            color: var(--button-default-hover-text-light-theme-filled);
+            border-color: var(--button-default-hover-border-light-theme-filled);
+        }
+        /* Light theme specific hover for the English button (blue) */
+        body.light-theme .deck-selection-buttons .deck-button[data-deck-id="english"]:hover {
+            background-color: var(--button-bg); /* Blue background */
+            color: #ffffff; /* White text */
+            border-color: var(--button-bg); /* Blue border */
+        }
+        /* Light theme specific default for the English button (white background, blue text) */
+        body.light-theme .deck-selection-buttons .deck-button[data-deck-id="english"] {
+            background-color: #ffffff; /* White background */
+            color: var(--button-bg); /* Blue text */
+            border-color: var(--button-bg); /* Blue border */
+        }
+
+
+        /* Theme Toggle Button Styles */
+        #theme-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        #theme-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        /* Dark Theme specific styles for Theme Toggle button */
+        body:not(.light-theme) #theme-toggle {
+            background-color: var(--dark-theme-toggle-bg);
+            border: 1px solid var(--dark-theme-toggle-border);
+            color: var(--text-color); /* Icon color */
+            box-shadow: var(--dark-theme-toggle-shadow); /* Yellow shadow */
+        }
+        body:not(.light-theme) #theme-toggle:hover {
+            background-color: var(--dark-theme-toggle-hover-bg);
+        }
+
+        /* Light Theme specific styles for Theme Toggle button */
+        body.light-theme #theme-toggle {
+            background-color: var(--theme-toggle-bg-light);
+            border: 1px solid var(--theme-toggle-border-light);
+            color: var(--text-color); /* Icon color */
+            box-shadow: var(--theme-toggle-shadow-light); /* Blue shadow */
+        }
+        body.light-theme #theme-toggle:hover {
+            background-color: var(--theme-toggle-hover-bg-light);
+        }
+
 
         .popup-overlay {
             position: fixed;
@@ -102,14 +308,14 @@
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s, visibility 0.3s;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
         .popup-overlay.active {
             opacity: 1;
             visibility: visible;
         }
         .popup-content {
-            background-color: #2d3748;
+            background-color: var(--popup-bg);
             padding: 2rem;
             border-radius: 1rem;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
@@ -118,7 +324,7 @@
             text-align: center;
             position: relative;
             transform: scale(0.9);
-            transition: transform 0.3s ease-out;
+            transition: transform 0.3s ease-out, background-color 0.3s ease; /* Smooth theme transition */
             display: flex; /* Use flexbox for content alignment */
             flex-direction: column;
             align-items: center;
@@ -143,15 +349,28 @@
             opacity: 1;
         }
 
+        #main-title { /* Specific style for the main title */
+            color: var(--main-title-color); /* Use CSS variable for dynamic color */
+        }
+
+        .title-image {
+            display: block; /* Ensures it takes its own line */
+            margin: 0.5rem auto 1rem auto; /* Top margin, auto horizontal for centering, bottom margin */
+            width: 80%; /* Match the width set for .deck-selection-buttons .deck-button */
+            max-width: 200px; /* Match the max-width of the buttons */
+            height: auto;
+            border-radius: 0.5rem; /* Rounded corners for the image */
+        }
+
         .card-name {
             font-size: 1.75rem;
             font-weight: 700;
-            color: #63b3ed;
+            color: var(--card-name-color); /* Use CSS variable for dynamic color */
         }
         .card-signification {
             font-size: 1.1rem;
             line-height: 1.6;
-            color: #cbd5e0;
+            color: var(--text-color);
         }
 
         /* Responsive adjustments */
@@ -165,21 +384,35 @@
             .deck-selection-buttons .deck-button {
                 max-width: none; /* Remove max-width on small screens for better wrapping */
             }
+            #theme-toggle {
+                top: 0.5rem;
+                right: 0.5rem;
+                width: 36px;
+                height: 36px;
+            }
+            .title-image {
+                max-width: 80px; /* Smaller on small screens */
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 id="main-title" class="text-3xl font-bold text-white mb-4">Monomyth Oracle</h1>
+        <h1 id="main-title" class="text-3xl font-bold mb-4">Monomyth Oracle</h1>
+        <img id="title-image" class="title-image" src="https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/main/MonomythOracle.png" alt="Monomyth Oracle Logo">
 
         <div class="select-group">
             <div class="deck-selection-buttons">
-                <button id="english-deck-button" class="deck-button active" data-deck-id="english">English Version</button>
-                <button id="french-deck-button" class="deck-button" data-deck-id="french">French Version</button>
+                <button id="deck-toggle-button" class="deck-button" data-deck-id="french">French Version</button>
             </div>
         </div>
 
         <button id="draw-card-button">Draw a Card</button>
+
+        <button id="theme-toggle" aria-label="Toggle theme">
+            <span id="theme-icon">
+                </span>
+        </button>
     </div>
 
     <div id="card-popup-overlay" class="popup-overlay">
@@ -216,7 +449,7 @@
                 { name: "SIX", signification: "Le héros explore le monde spécial, fait face à un procès et se fait des amis et des ennemis.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/06Virgo.png" },
                 { name: "SEPT", signification: "Le héros se rapproche du centre de l'histoire et du monde spécial.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/07Libra.png" },
                 { name: "HUIT", signification: "Le héros fait face au plus grand défi à ce jour et connaît la mort et la renaissance.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/08Scorpius.png" },
-                { name: "NEUF", signification: "Le héros subit les conséquences de survivre à la mort.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/09sagittarius.png" },
+                { name: "NEUF", signification: "Le héros subit les conséquences de survivre à la mort.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/09Sagittarius.png" },
                 { name: "DIX", signification: "Le héros retourne dans le monde ordinaire ou continue vers une destination ultime.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/10Capricornus.png" },
                 { name: "ONZE", signification: "Le héros vit un dernier moment de mort et de renaissance afin qu'il soit pur lorsqu'il re-entre dans le monde ordinaire.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/11Aquarius.png" },
                 { name: "DOUZE", signification: "Le héros revient avec quelque chose pour améliorer le monde ordinaire.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/12Pisces.png" }
@@ -224,44 +457,76 @@
         };
 
         // Get references to HTML elements
-        const mainTitle = document.getElementById('main-title'); // Get the main title element
-        const englishDeckButton = document.getElementById('english-deck-button');
-        const frenchDeckButton = document.getElementById('french-deck-button');
+        const mainTitle = document.getElementById('main-title');
+        const deckToggleButton = document.getElementById('deck-toggle-button');
         const drawCardButton = document.getElementById('draw-card-button');
         const cardPopupOverlay = document.getElementById('card-popup-overlay');
         const popupCardImage = document.getElementById('popup-card-image');
         const popupCardName = document.getElementById('popup-card-name');
         const popupCardSignification = document.getElementById('popup-card-signification');
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const themeIconSpan = document.getElementById('theme-icon');
 
         // Variable to keep track of the currently selected deck
         let currentSelectedDeckId = 'english'; // Default to English
 
         /**
-         * Updates the active state of the deck selection buttons and changes text based on language.
+         * Updates the active state of the deck selection and the toggle button.
          * @param {string} activeDeckId - The ID of the deck to set as active ('english' or 'french').
          */
         function setActiveDeckButton(activeDeckId) {
-            // Remove 'active' class from all deck buttons
-            englishDeckButton.classList.remove('active');
-            frenchDeckButton.classList.remove('active');
+            currentSelectedDeckId = activeDeckId; // Update the current selected deck
 
-            // Add 'active' class to the selected deck button
             if (activeDeckId === 'english') {
-                englishDeckButton.classList.add('active');
-                // Update texts for English version
                 mainTitle.textContent = 'Monomyth Oracle';
                 drawCardButton.textContent = 'Draw a Card';
-                englishDeckButton.textContent = 'English Version';
-                frenchDeckButton.textContent = 'French Version';
+                deckToggleButton.textContent = 'French Version';
+                deckToggleButton.dataset.deckId = 'french'; // Set data attribute for next click
             } else if (activeDeckId === 'french') {
-                frenchDeckButton.classList.add('active');
-                // Update texts for French version
                 mainTitle.textContent = 'Oracle du Monomythe';
                 drawCardButton.textContent = 'Tirez une carte';
-                englishDeckButton.textContent = 'Version Anglaise';
-                frenchDeckButton.textContent = 'Version Française';
+                deckToggleButton.textContent = 'English Version';
+                deckToggleButton.dataset.deckId = 'english'; // Set data attribute for next click
             }
-            currentSelectedDeckId = activeDeckId; // Update the current selected deck
+        }
+
+        /**
+         * Toggles between dark and light themes.
+         */
+        function toggleTheme() {
+            const isLightTheme = document.body.classList.toggle('light-theme');
+            localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
+            updateThemeIcon(isLightTheme);
+        }
+
+        /**
+         * Updates the theme toggle button icon based on the current theme.
+         * @param {boolean} isLightTheme - True if the light theme is active, false otherwise.
+         */
+        function updateThemeIcon(isLightTheme) {
+            if (isLightTheme) {
+                // In light theme, show Moon icon
+                themeIconSpan.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+                    </svg>
+                `;
+            } else {
+                // In dark theme, show Sun icon
+                themeIconSpan.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="6" />
+                        <line x1="12" y1="1" x2="12" y2="3" />
+                        <line x1="12" y1="21" x2="12" y2="23" />
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                        <line x1="1" y1="12" x2="3" y2="12" />
+                        <line x1="21" y1="12" x2="23" y2="12" />
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                    </svg>
+                `;
+            }
         }
 
         /**
@@ -308,14 +573,10 @@
             cardPopupOverlay.classList.remove('active');
         }
 
-        // Event listener for English deck selection button
-        englishDeckButton.addEventListener('click', () => {
-            setActiveDeckButton('english');
-        });
-
-        // Event listener for French deck selection button
-        frenchDeckButton.addEventListener('click', () => {
-            setActiveDeckButton('french');
+        // Event listener for the single deck toggle button
+        deckToggleButton.addEventListener('click', () => {
+            const nextDeckId = deckToggleButton.dataset.deckId;
+            setActiveDeckButton(nextDeckId);
         });
 
         // Event listener for drawing a card
@@ -343,9 +604,24 @@
             }
         });
 
-        // Set initial active button and text on load
+        // Event listener for theme toggle button
+        themeToggleButton.addEventListener('click', toggleTheme);
+
+        // Set initial active button, text, and theme on load
         window.onload = () => {
-            setActiveDeckButton(currentSelectedDeckId); // This will set the initial English texts
+            // Set initial state for the deck toggle button (default to English, so button shows French)
+            setActiveDeckButton('english');
+
+            // Apply saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                updateThemeIcon(true); // Set moon icon for light theme
+            } else {
+                // Default to dark if no preference or 'dark' saved
+                document.body.classList.remove('light-theme');
+                updateThemeIcon(false); // Set sun icon for dark theme
+            }
         };
     </script>
 </body>
