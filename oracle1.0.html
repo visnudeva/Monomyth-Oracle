@@ -1,0 +1,352 @@
+<!-- Author: https://visnudeva.carrd.co/ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monomyth Oracle</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c; /* Dark theme background */
+            color: #e2e8f0; /* Light text color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #2d3748; /* Darker container background */
+            border-radius: 1rem; /* Rounded corners */
+            padding: 2rem;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+            /* Properties for 9:16 card shape (width:height) */
+            width: 300px; /* Fixed width for card shape */
+            height: 534px; /* Calculated height for 9:16 aspect ratio (300 * 16 / 9 ≈ 533.33) */
+            max-width: 90vw; /* Ensure it doesn't exceed viewport width */
+            max-height: 90vh; /* Ensure it doesn't exceed viewport height */
+            overflow-y: auto; /* Add scroll if content overflows vertically */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Distribute space between elements */
+            gap: 1rem; /* Space between elements */
+        }
+        /* Styling for all buttons */
+        button {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #4a5568;
+            background-color: #4299e1; /* Blue button */
+            border-color: #4299e1;
+            color: #e2e8f0;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            background-color: #3182ce; /* Darker blue on hover */
+        }
+        button:focus {
+            outline: none;
+            border-color: #63b3ed;
+            box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.5);
+        }
+
+        /* Specific styling for the draw card button to match deck buttons */
+        #draw-card-button {
+            width: 80%; /* Make it narrower */
+            max-width: 200px; /* Limit max width */
+            margin: 0 auto; /* Center the button */
+        }
+
+        /* Styling for deck selection buttons */
+        .deck-selection-buttons {
+            display: flex;
+            flex-direction: column; /* Changed to column to stack buttons vertically */
+            gap: 0.75rem; /* Adjusted gap for vertical layout */
+            justify-content: center;
+            align-items: center; /* Center buttons horizontally */
+        }
+        .deck-selection-buttons .deck-button {
+            width: 80%; /* Make buttons narrower to fit card width better */
+            max-width: 200px; /* Max width for individual buttons */
+            background-color: #4a5568; /* Default button background */
+            border-color: #4a5568;
+        }
+        .deck-selection-buttons .deck-button.active {
+            background-color: #4299e1; /* Active button color */
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(99, 179, 237, 0.5);
+        }
+        .deck-selection-buttons .deck-button:hover:not(.active) {
+            background-color: #5a6270; /* Slightly lighter on hover for non-active */
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .popup-content {
+            background-color: #2d3748;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+            max-width: 80vw;
+            width: 400px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.3s ease-out;
+            display: flex; /* Use flexbox for content alignment */
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem; /* Space between elements */
+        }
+        .popup-overlay.active .popup-content {
+            transform: scale(1);
+        }
+
+        .card-image {
+            max-width: 100%; /* Ensure image is responsive */
+            height: auto;
+            border-radius: 0.5rem; /* Rounded corners for image */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            /* Initial state for zoom and fade effect */
+            transform: scale(0.8);
+            opacity: 0;
+            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+        .card-image.reveal {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .card-name {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #63b3ed;
+        }
+        .card-signification {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #cbd5e0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .container {
+                width: 80vw; /* Make it more fluid on smaller screens */
+                height: auto; /* Allow height to adjust based on content */
+                max-height: 90vh; /* Still limit max height */
+                padding: 1.5rem; /* Smaller padding on small screens */
+            }
+            .deck-selection-buttons .deck-button {
+                max-width: none; /* Remove max-width on small screens for better wrapping */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="main-title" class="text-3xl font-bold text-white mb-4">Monomyth Oracle</h1>
+
+        <div class="select-group">
+            <div class="deck-selection-buttons">
+                <button id="english-deck-button" class="deck-button active" data-deck-id="english">English Version</button>
+                <button id="french-deck-button" class="deck-button" data-deck-id="french">French Version</button>
+            </div>
+        </div>
+
+        <button id="draw-card-button">Draw a Card</button>
+    </div>
+
+    <div id="card-popup-overlay" class="popup-overlay">
+        <div class="popup-content">
+            <img id="popup-card-image" class="card-image" src="" alt="Tarot Card" onerror="this.onerror=null;this.src='https://placehold.co/200x350/CCCCCC/000000?text=Card+Art+Missing';">
+            <div class="card-name" id="popup-card-name"></div>
+            <div class="card-signification" id="popup-card-signification"></div>
+        </div>
+    </div>
+
+    <script>
+        // Card data for English and French versions
+        const cardData = {
+            "english": [
+                { name: "ONE", signification: "The hero is seen in their everyday life.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/01Aries.png" },
+                { name: "TWO", signification: "The initiating incident of the story.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/02Taurus.png" },
+                { name: "THREE", signification: "The hero experiences some hesitation to answer the call.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/03Gemini.png" },
+                { name: "FOUR", signification: "The hero gains the supplies, knowledge, and confidence needed to commence the adventure.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/04Cancer.png" },
+                { name: "FIVE", signification: "The hero commits wholeheartedly to the adventure.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/05Leo.png" },
+                { name: "SIX", signification: "The hero explores the special world, faces trial, and makes friends and enemies.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/06Virgo.png" },
+                { name: "SEVEN", signification: "The hero nears the center of the story and the special world.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/07Libra.png" },
+                { name: "EIGHT", signification: "The hero faces the greatest challenge yet and experiences death and rebirth.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/08Scorpius.png" },
+                { name: "NINE", signification: "The hero experiences the consequences of surviving death.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/09Sagittarius.png" },
+                { name: "TEN", signification: "The hero returns to the ordinary world or continues to an ultimate destination.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/10Capricornus.png" },
+                { name: "ELEVEN", signification: "The hero experiences a final moment of death and rebirth so they are pure when they reenter the ordinary world.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/11Aquarius.png" },
+                { name: "TWELVE", signification: "The hero returns with something to improve the ordinary world.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/12Pisces.png" }
+            ],
+            "french": [
+                { name: "UN", signification: "Le héros est vu dans sa vie quotidienne.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/01Aries.png" },
+                { name: "DEUX", signification: "L'incident initial de l'histoire.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/02Taurus.png" },
+                { name: "TROIS", signification: "Le héros hésite à répondre à l'appel.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/03Gemini.png" },
+                { name: "QUATRE", signification: "Le héros acquiert les fournitures, les connaissances et la confiance nécessaires pour commencer l'aventure.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/04Cancer.png" },
+                { name: "CINQ", signification: "Le héros s'engage à fond dans l'aventure.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/05Leo.png" },
+                { name: "SIX", signification: "Le héros explore le monde spécial, fait face à un procès et se fait des amis et des ennemis.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/06Virgo.png" },
+                { name: "SEPT", signification: "Le héros se rapproche du centre de l'histoire et du monde spécial.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/07Libra.png" },
+                { name: "HUIT", signification: "Le héros fait face au plus grand défi à ce jour et connaît la mort et la renaissance.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/08Scorpius.png" },
+                { name: "NEUF", signification: "Le héros subit les conséquences de survivre à la mort.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/09sagittarius.png" },
+                { name: "DIX", signification: "Le héros retourne dans le monde ordinaire ou continue vers une destination ultime.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/10Capricornus.png" },
+                { name: "ONZE", signification: "Le héros vit un dernier moment de mort et de renaissance afin qu'il soit pur lorsqu'il re-entre dans le monde ordinaire.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/11Aquarius.png" },
+                { name: "DOUZE", signification: "Le héros revient avec quelque chose pour améliorer le monde ordinaire.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/12Pisces.png" }
+            ]
+        };
+
+        // Get references to HTML elements
+        const mainTitle = document.getElementById('main-title'); // Get the main title element
+        const englishDeckButton = document.getElementById('english-deck-button');
+        const frenchDeckButton = document.getElementById('french-deck-button');
+        const drawCardButton = document.getElementById('draw-card-button');
+        const cardPopupOverlay = document.getElementById('card-popup-overlay');
+        const popupCardImage = document.getElementById('popup-card-image');
+        const popupCardName = document.getElementById('popup-card-name');
+        const popupCardSignification = document.getElementById('popup-card-signification');
+
+        // Variable to keep track of the currently selected deck
+        let currentSelectedDeckId = 'english'; // Default to English
+
+        /**
+         * Updates the active state of the deck selection buttons and changes text based on language.
+         * @param {string} activeDeckId - The ID of the deck to set as active ('english' or 'french').
+         */
+        function setActiveDeckButton(activeDeckId) {
+            // Remove 'active' class from all deck buttons
+            englishDeckButton.classList.remove('active');
+            frenchDeckButton.classList.remove('active');
+
+            // Add 'active' class to the selected deck button
+            if (activeDeckId === 'english') {
+                englishDeckButton.classList.add('active');
+                // Update texts for English version
+                mainTitle.textContent = 'Monomyth Oracle';
+                drawCardButton.textContent = 'Draw a Card';
+                englishDeckButton.textContent = 'English Version';
+                frenchDeckButton.textContent = 'French Version';
+            } else if (activeDeckId === 'french') {
+                frenchDeckButton.classList.add('active');
+                // Update texts for French version
+                mainTitle.textContent = 'Oracle du Monomythe';
+                drawCardButton.textContent = 'Tirez une carte';
+                englishDeckButton.textContent = 'Version Anglaise';
+                frenchDeckButton.textContent = 'Version Française';
+            }
+            currentSelectedDeckId = activeDeckId; // Update the current selected deck
+        }
+
+        /**
+         * Displays the card information in a popup.
+         * @param {string} cardName - The name of the drawn card.
+         * @param {string} signification - The signification of the drawn card.
+         * @param {string} imageUrl - The URL of the card image.
+         */
+        function showPopup(cardName, signification, imageUrl) {
+            // Reset the image state for the new reveal
+            popupCardImage.classList.remove('reveal');
+            popupCardImage.src = ''; // Clear previous image to ensure onload fires
+
+            // Set content for the popup
+            popupCardName.textContent = cardName;
+            popupCardSignification.textContent = signification;
+
+            // Create a temporary Image object to preload the image
+            const tempImage = new Image();
+
+            // Set onload and onerror handlers for the temporary image
+            tempImage.onload = () => {
+                popupCardImage.src = imageUrl; // Set the actual image source
+                popupCardImage.alt = cardName + " Tarot Card";
+                popupCardImage.classList.add('reveal'); // Trigger the zoom/fade effect
+                cardPopupOverlay.classList.add('active'); // Show the popup overlay AFTER image loads
+            };
+
+            tempImage.onerror = () => {
+                popupCardImage.src = 'https://placehold.co/200x350/CCCCCC/000000?text=Card+Art+Missing';
+                popupCardImage.alt = 'Card Art Missing';
+                popupCardImage.classList.add('reveal'); // Show placeholder with effect
+                cardPopupOverlay.classList.add('active'); // Show the popup overlay AFTER placeholder is ready
+            };
+
+            // Start loading the temporary image
+            tempImage.src = imageUrl;
+        }
+
+        /**
+         * Hides the card information popup.
+         */
+        function hidePopup() {
+            cardPopupOverlay.classList.remove('active');
+        }
+
+        // Event listener for English deck selection button
+        englishDeckButton.addEventListener('click', () => {
+            setActiveDeckButton('english');
+        });
+
+        // Event listener for French deck selection button
+        frenchDeckButton.addEventListener('click', () => {
+            setActiveDeckButton('french');
+        });
+
+        // Event listener for drawing a card
+        drawCardButton.addEventListener('click', () => {
+            const currentDeck = cardData[currentSelectedDeckId];
+
+            if (!currentDeck || currentDeck.length === 0) {
+                console.error(`No card data found for the selected deck: ${currentSelectedDeckId}`);
+                // In this case, we can show the popup immediately with an error message
+                showPopup("Error", "No card data available for this deck. Please provide the card significations and image URLs.", 'https://placehold.co/200x350/CCCCCC/000000?text=Error');
+                return;
+            }
+
+            // Get a random card from the currently selected deck
+            const randomIndex = Math.floor(Math.random() * currentDeck.length);
+            const chosenCard = currentDeck[randomIndex];
+
+            showPopup(chosenCard.name, chosenCard.signification, chosenCard.imageUrl);
+        });
+
+        // Event listener for closing the popup when clicking outside the content
+        cardPopupOverlay.addEventListener('click', (event) => {
+            if (event.target === cardPopupOverlay) {
+                hidePopup();
+            }
+        });
+
+        // Set initial active button and text on load
+        window.onload = () => {
+            setActiveDeckButton(currentSelectedDeckId); // This will set the initial English texts
+        };
+    </script>
+</body>
+</html>
