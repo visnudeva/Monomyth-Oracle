@@ -1,5 +1,6 @@
-![screenshot1](https://github.com/visnudeva/dot-files/blob/main/20230505_12h09m51s_grim.png)
-
+<p align="center">
+  <img src="https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/main/MonomythOracle.png" width="300">
+</p>
 
 # The Monomyth Oracle - English Version
 
