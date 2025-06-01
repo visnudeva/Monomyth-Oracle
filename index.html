@@ -31,6 +31,7 @@
             --dark-draw-card-hover-bg: #dc3545; /* Changed to red background on hover */
             --dark-draw-card-hover-text: #ffffff; /* Changed to white text on hover */
             --dark-draw-card-hover-border: #dc3545; /* Red border on hover */
+            --dark-draw-card-shadow: 0 0 10px rgba(220, 53, 69, 0.7); /* Red shadow */
 
             /* English Version button in dark theme (non-active) */
             --dark-english-deck-text: #007bff; /* Blue text */
@@ -38,6 +39,7 @@
             --dark-english-deck-hover-bg: #007bff; /* Changed to blue background on hover */
             --dark-english-deck-hover-text: #ffffff; /* Changed to white text on hover */
             --dark-english-deck-hover-border: #007bff; /* Blue border on hover */
+            --dark-english-deck-shadow: 0 0 10px rgba(0, 123, 255, 0.7); /* Blue shadow */
 
             /* French Version button in dark theme (non-active) */
             --dark-french-deck-text: #ffc107; /* Yellow text */
@@ -45,6 +47,7 @@
             --dark-french-deck-hover-bg: #ffc107; /* Yellow background on hover */
             --dark-french-deck-hover-text: #ffffff; /* White text on hover */
             --dark-french-deck-hover-border: #ffc107; /* Yellow border on hover */
+            --dark-french-deck-shadow: 0 0 10px rgba(255, 193, 7, 0.7); /* Yellow shadow */
 
             /* Theme toggle button in dark theme */
             --dark-theme-toggle-bg: transparent; /* Transparent background */
@@ -76,6 +79,7 @@
             --draw-card-button-hover-bg-light: #dc3545; /* Red background on hover for draw card button */
             --draw-card-button-hover-text-light: #ffffff; /* White text on hover for draw card button */
             --draw-card-button-hover-border-light: #dc3545; /* Red border on hover */
+            --draw-card-button-shadow-light: 0 0 10px rgba(220, 53, 69, 0.7); /* Red shadow */
 
             /* Deck buttons in light theme (non-active) */
             --button-default-bg-light-theme-outline: transparent;
@@ -93,6 +97,10 @@
             --theme-toggle-border-light: var(--text-color); /* Black border */
             --theme-toggle-hover-bg-light: #f0f0f0; /* Slight hover effect */
             --theme-toggle-shadow-light: 0 0 10px rgba(0, 123, 255, 0.7); /* Blue shadow for light theme */
+
+            /* Light theme specific shadows for language buttons */
+            --light-english-deck-shadow: 0 0 10px rgba(0, 123, 255, 0.7); /* Blue shadow for English button in light theme */
+            --light-french-deck-shadow: 0 0 10px rgba(255, 193, 7, 0.7); /* Yellow shadow for French button in light theme */
         }
 
         body {
@@ -124,7 +132,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between; /* Distribute space between elements */
-            gap: 1rem; /* Space between elements */
+            gap: 0.5rem; /* Reduced gap between elements */
             transition: background-color 0.3s ease; /* Smooth theme transition */
         }
         /* Styling for all common buttons (default for dark theme unless overridden) */
@@ -150,6 +158,7 @@
             background-color: var(--dark-draw-card-bg);
             border: 1px solid var(--dark-draw-card-border);
             color: var(--dark-draw-card-text);
+            box-shadow: var(--dark-draw-card-shadow); /* Red shadow */
         }
         body:not(.light-theme) #draw-card-button:hover {
             background-color: var(--dark-draw-card-hover-bg);
@@ -162,6 +171,7 @@
             background-color: var(--draw-card-button-bg-light);
             border: 1px solid var(--draw-card-button-border-light);
             color: var(--draw-card-button-text-light);
+            box-shadow: var(--draw-card-button-shadow-light); /* Red shadow */
         }
         body.light-theme #draw-card-button:hover {
             background-color: var(--draw-card-button-hover-bg-light);
@@ -189,10 +199,12 @@
             /* Default to yellow border/text for French, overridden for English below */
             border: 1px solid var(--dark-french-deck-border);
             color: var(--dark-french-deck-text);
+            box-shadow: var(--dark-french-deck-shadow); /* Apply French shadow by default */
         }
         body:not(.light-theme) .deck-selection-buttons .deck-button[data-deck-id="english"] {
             border: 1px solid var(--dark-english-deck-border); /* Blue border for English */
             color: var(--dark-english-deck-text); /* Blue text for English */
+            box-shadow: var(--dark-english-deck-shadow); /* Apply English shadow */
         }
 
         /* Dark Theme specific styles for the single deck toggle button hover */
@@ -228,6 +240,7 @@
             background-color: var(--button-default-bg-light-theme-outline);
             border: 1px solid var(--button-default-border-light-theme-outline);
             color: var(--button-default-text-light-theme-outline);
+            box-shadow: var(--light-french-deck-shadow); /* Default to yellow shadow for French */
         }
         /* Light theme specific hover for the French button (yellow) */
         body.light-theme .deck-selection-buttons .deck-button[data-deck-id="french"]:hover {
@@ -246,6 +259,7 @@
             background-color: #ffffff; /* White background */
             color: var(--button-bg); /* Blue text */
             border-color: var(--button-bg); /* Blue border */
+            box-shadow: var(--light-english-deck-shadow); /* Blue shadow for English */
         }
 
 
@@ -390,15 +404,16 @@
                 width: 36px;
                 height: 36px;
             }
+            /* Removed specific max-width for title-image on small screens to match button width */
             .title-image {
-                max-width: 80px; /* Smaller on small screens */
+                max-width: 200px; /* Ensure it matches button max-width */
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 id="main-title" class="text-3xl font-bold mb-4">Monomyth Oracle</h1>
+        <h1 id="main-title" class="text-3xl font-bold mb-8">Monomyth Oracle</h1>
         <img id="title-image" class="title-image" src="https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/main/MonomythOracle.png" alt="Monomyth Oracle Logo">
 
         <div class="select-group">
@@ -442,7 +457,7 @@
             ],
             "french": [
                 { name: "UN", signification: "Le héros est vu dans sa vie quotidienne.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/01Aries.png" },
-                { name: "DEUX", signification: "L'incident initial de l'histoire.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/02Taurus.png" },
+                { name: "DEUX", "signification": "L'incident initial de l'histoire.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/02Taurus.png" },
                 { name: "TROIS", signification: "Le héros hésite à répondre à l'appel.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/03Gemini.png" },
                 { name: "QUATRE", signification: "Le héros acquiert les fournitures, les connaissances et la confiance nécessaires pour commencer l'aventure.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/04Cancer.png" },
                 { name: "CINQ", signification: "Le héros s'engage à fond dans l'aventure.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/05Leo.png" },
