@@ -309,25 +309,26 @@
         #close-popup-button {
             position: absolute;
             bottom: 1rem; /* Position at the bottom */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 40px;
+            right: 1rem; /* Position at the right */
+            width: 28px; /* 30% smaller than 40px */
+            height: 28px; /* 30% smaller than 40px */
             padding: 0;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.5rem; /* Larger 'X' */
+            font-size: 1.05rem; /* Adjusted font size */
             font-weight: bold;
             background-color: var(--container-bg); /* Match popup background */
             border: 1px solid var(--text-color); /* Match text color for border */
             color: var(--text-color); /* Match text color for 'X' */
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            opacity: 0.5; /* 50% transparent by default */
+            transition: opacity 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
         }
         #close-popup-button:hover {
+            opacity: 1; /* 100% visible on hover */
             background-color: rgba(var(--text-color-rgb), 0.1); /* Slight hover effect */
         }
         /* Define RGB values for text-color for hover effect */
@@ -401,7 +402,6 @@
 <body>
     <div class="container">
         <h1 id="main-title" class="text-3xl font-bold mb-8">Monomyth<br>Oracle</h1>
-        <img id="title-image" class="title-image" src="https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/main/MonomythOracle.png" alt="Monomyth Oracle Logo">
 
         <div class="language-theme-controls">
             <button id="deck-toggle-button" class="deck-button" data-deck-id="french">FR</button>
@@ -416,6 +416,8 @@
                 </svg>
             </button>
         </div>
+
+        <img id="title-image" class="title-image" src="https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/main/MonomythOracle.png" alt="Monomyth Oracle Logo">
 
         <button id="draw-card-button">Draw a Card</button>
 
