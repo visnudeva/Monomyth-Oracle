@@ -140,6 +140,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 1.5rem; /* Increased gap between buttons */
             margin-bottom: 0.5rem;
         }
 
@@ -154,7 +155,6 @@
             align-items: center;
             font-size: 0.875rem;
             font-weight: 700;
-            margin-right: 0.5rem; /* Space between language and theme buttons */
             transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
         }
 
@@ -192,7 +192,6 @@
             align-items: center;
             z-index: 10;
             transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-            margin-right: 0.5rem; /* Space between theme and print buttons */
         }
         #theme-toggle svg {
             width: 24px;
@@ -306,6 +305,40 @@
             transform: scale(1);
         }
 
+        /* Close button for popup */
+        #close-popup-button {
+            position: absolute;
+            bottom: 1rem; /* Position at the bottom */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem; /* Larger 'X' */
+            font-weight: bold;
+            background-color: var(--container-bg); /* Match popup background */
+            border: 1px solid var(--text-color); /* Match text color for border */
+            color: var(--text-color); /* Match text color for 'X' */
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+        }
+        #close-popup-button:hover {
+            background-color: rgba(var(--text-color-rgb), 0.1); /* Slight hover effect */
+        }
+        /* Define RGB values for text-color for hover effect */
+        body:not(.light-theme) {
+            --text-color-rgb: 226, 232, 240; /* e2e8f0 in RGB */
+        }
+        body.light-theme {
+            --text-color-rgb: 0, 0, 0; /* 000000 in RGB */
+        }
+
+
         .card-image {
             max-width: 100%;
             height: auto;
@@ -352,9 +385,6 @@
                 max-height: 90vh;
                 padding: 1.5rem;
             }
-            #theme-toggle {
-                margin-left: 0.5rem;
-            }
             .title-image {
                 max-width: 200px;
             }
@@ -370,7 +400,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 id="main-title" class="text-3xl font-bold mb-8">Monomyth Oracle</h1>
+        <h1 id="main-title" class="text-3xl font-bold mb-8">Monomyth<br>Oracle</h1>
         <img id="title-image" class="title-image" src="https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/main/MonomythOracle.png" alt="Monomyth Oracle Logo">
 
         <div class="language-theme-controls">
@@ -396,6 +426,7 @@
             <img id="popup-card-image" class="card-image" src="" alt="Tarot Card" onerror="this.onerror=null;this.src='https://placehold.co/200x350/CCCCCC/000000?text=Card+Art+Missing';">
             <div class="card-name" id="popup-card-name"></div>
             <div class="card-signification" id="popup-card-signification"></div>
+            <button id="close-popup-button" aria-label="Close popup">X</button>
         </div>
     </div>
 
@@ -443,6 +474,7 @@
         const themeToggleButton = document.getElementById('theme-toggle');
         const themeIconSpan = document.getElementById('theme-icon');
         const printButton = document.getElementById('print-button'); // Get the new print button
+        const closePopupButton = document.getElementById('close-popup-button'); // Get the new close popup button
 
         // PDF URLs (PLACEHOLDER - PLEASE REPLACE THESE WITH YOUR ACTUAL GITHUB RAW PDF LINKS)
         const englishPdfUrl = 'https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/1d45f82a8de263f931d3b4b8a50e011ec824db29/2.0.ENG/oracleEN.pdf';
@@ -459,13 +491,13 @@
             currentSelectedDeckId = activeDeckId; // Update the current selected deck
 
             if (activeDeckId === 'english') {
-                mainTitle.textContent = 'Monomyth Oracle';
+                mainTitle.innerHTML = 'Monomyth<br>Oracle'; // Set title for English
                 drawCardButton.textContent = 'Draw a Card';
                 deckToggleButton.textContent = 'FR'; // Changed text to FR
                 deckToggleButton.dataset.deckId = 'french'; // Set data attribute for next click
                 printButton.dataset.pdfUrl = englishPdfUrl; // Set PDF URL for English version
             } else if (activeDeckId === 'french') {
-                mainTitle.textContent = 'Oracle du Monomythe';
+                mainTitle.innerHTML = 'Oracle du<br>Monomythe'; // Set title for French
                 drawCardButton.textContent = 'Tirez une carte';
                 deckToggleButton.textContent = 'EN'; // Changed text to EN
                 deckToggleButton.dataset.deckId = 'english'; // Set data attribute for next click
@@ -586,6 +618,9 @@
                 hidePopup();
             }
         });
+
+        // Event listener for the new close popup button
+        closePopupButton.addEventListener('click', hidePopup);
 
         // Event listener for theme toggle button
         themeToggleButton.addEventListener('click', toggleTheme);
