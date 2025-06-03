@@ -1,5 +1,5 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/main/MonomythOracle.png" width="300">
+<p align="center">8
+  <img src="https://github.com/visnudeva/Monomyth-Oracle/blob/main/Screenshot.png?raw=true" width="800">
 </p>
 
 # The Monomyth Oracle - English Version
