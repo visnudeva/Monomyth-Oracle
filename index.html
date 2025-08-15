@@ -90,9 +90,8 @@
             background-color: var(--container-bg);
             border-radius: 1rem;
             padding: 2rem;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
             flex: 1; /* Make this column grow to fill available space */
-            height: 600px; /* Changed from 700px to 600px */
+            height: 550px;
             max-width: 90vw;
             text-align: center;
             display: flex;
@@ -107,9 +106,8 @@
             background-color: var(--card-display-bg);
             border-radius: 1rem;
             padding: 2rem;
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
             flex: 1; /* Make this column grow to fill available space */
-            height: 600px; /* Changed from 700px to 600px */
+            height: 550px;
             max-width: 90vw;
             text-align: center;
             display: flex;
@@ -139,7 +137,7 @@
         /* Ensure the card image fits within the flex container */
         .card-image {
             max-width: 100%;
-            max-height: 60%; /* Adjust as needed, but this allows it to shrink */
+            max-height: 65%; /* This was already set in a previous update */
             height: auto;
             object-fit: contain; /* Prevents distortion */
             border-radius: 0.5rem;
@@ -354,8 +352,9 @@
                 align-items: center;
                 gap: 20px;
             }
+            /* Changed width from 90% to 100% to ensure both containers are equal width on mobile */
             .container, .card-display {
-                width: 90%;
+                width: 100%;
                 height: auto; /* Revert to auto height on mobile to prevent overflow */
             }
             .card-signification {
