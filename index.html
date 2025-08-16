@@ -8,34 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables for Dark Theme */
+        /* CSS Variables for Light Theme, now the default */
         :root {
-            --bg-color: #1a202c;
-            --text-color: #e2e8f0; /* Light gray/blue for text in dark theme */
-            --container-bg: #2d3748;
-            --card-display-bg: #2d3748;
-            --card-name-color: #63b3ed; /* Original blue for card names in dark theme */
-            --main-title-color: #63b3ed; /* Original blue for main title in dark theme */
-
-            /* Draw Card button in dark theme */
-            --dark-draw-card-bg: transparent;
-            --dark-draw-card-text: #dc3545;
-            --dark-draw-card-border: #dc3545;
-            --dark-draw-card-hover-bg: #dc3545;
-            --dark-draw-card-hover-text: #ffffff;
-            --dark-draw-card-hover-border: #dc3545;
-            --dark-draw-card-shadow: 0 0 10px rgba(220, 53, 69, 0.7);
-
-            /* Theme toggle and Print button in dark theme (language button will match these) */
-            --dark-control-button-bg: transparent;
-            --dark-control-button-border: var(--text-color); /* Light gray/blue border */
-            --dark-control-button-text: var(--text-color); /* Light gray/blue text */
-            --dark-control-button-hover-bg: rgba(255, 255, 255, 0.1); /* Slight hover effect */
-            --dark-control-button-shadow: 0 0 10px rgba(255, 193, 7, 0.7); /* Yellow shadow */
-        }
-
-        /* CSS Variables for Light Theme */
-        body.light-theme {
             --bg-color: #ffffff;
             --text-color: #000000; /* Black for text in light theme */
             --container-bg: #ffffff;
@@ -52,7 +26,7 @@
             --draw-card-button-hover-border-light: #dc3545;
             --draw-card-button-shadow-light: 0 0 10px rgba(220, 53, 69, 0.7);
 
-            /* Theme toggle and Print button in light theme (language button will match these) */
+            /* Control buttons (Language, Print) */
             --light-control-button-bg: #ffffff;
             --light-control-button-border: var(--text-color); /* Black border */
             --light-control-button-text: var(--text-color); /* Black text */
@@ -91,7 +65,7 @@
             border-radius: 1rem;
             padding: 2rem;
             flex: 1; /* Make this column grow to fill available space */
-            height: 550px;
+            height: 700px;
             max-width: 90vw;
             text-align: center;
             display: flex;
@@ -107,7 +81,7 @@
             border-radius: 1rem;
             padding: 2rem;
             flex: 1; /* Make this column grow to fill available space */
-            height: 550px;
+            height: 700px;
             max-width: 90vw;
             text-align: center;
             display: flex;
@@ -137,7 +111,7 @@
         /* Ensure the card image fits within the flex container */
         .card-image {
             max-width: 100%;
-            max-height: 65%; /* This was already set in a previous update */
+            max-height: 65%;
             height: auto;
             object-fit: contain; /* Prevents distortion */
             border-radius: 0.5rem;
@@ -164,34 +138,19 @@
             outline: none;
         }
 
-        /* Draw Card Button Styles */
+        /* Draw Card Button Styles - Updated for larger size */
         #draw-card-button {
             width: 80%;
-            max-width: 200px;
+            max-width: 250px; /* Increased max-width */
             margin: 0 auto;
-        }
-
-        /* Dark Theme specific styles for Draw Card button */
-        body:not(.light-theme) #draw-card-button {
-            background-color: var(--dark-draw-card-bg);
-            border: 1px solid var(--dark-draw-card-border);
-            color: var(--dark-draw-card-text);
-            box-shadow: var(--dark-draw-card-shadow);
-        }
-        body:not(.light-theme) #draw-card-button:hover {
-            background-color: var(--dark-draw-card-hover-bg);
-            color: var(--dark-draw-card-hover-text);
-            border-color: var(--dark-draw-card-hover-border);
-        }
-
-        /* Light Theme specific styles for Draw Card button */
-        body.light-theme #draw-card-button {
             background-color: var(--draw-card-button-bg-light);
             border: 1px solid var(--draw-card-button-border-light);
             color: var(--draw-card-button-text-light);
             box-shadow: var(--draw-card-button-shadow-light);
+            padding: 1rem 1.5rem; /* Increased padding */
+            font-size: 1.125rem; /* Increased font size */
         }
-        body.light-theme #draw-card-button:hover {
+        #draw-card-button:hover {
             background-color: var(--draw-card-button-hover-bg-light);
             color: var(--draw-card-button-hover-text-light);
             border-color: var(--draw-card-button-hover-border-light);
@@ -202,92 +161,36 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 1.5rem; /* Increased gap between buttons */
+            gap: 2rem; /* Increased gap between buttons */
             margin-bottom: 0.5rem;
         }
 
-        /* Language Toggle Button Styles (will match theme and print buttons) */
+        /* Language Toggle Button Styles - Updated for larger size */
         #deck-toggle-button {
-            width: 40px;
-            height: 40px;
+            width: 48px; /* Increased width */
+            height: 48px; /* Increased height */
             padding: 0;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 0.875rem;
+            font-size: 1rem; /* Increased font size */
             font-weight: 700;
             transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        /* Dark Theme specific styles for Language Toggle button */
-        body:not(.light-theme) #deck-toggle-button {
-            background-color: var(--dark-control-button-bg);
-            border: 1px solid var(--dark-control-button-border);
-            color: var(--dark-control-button-text);
-            box-shadow: var(--dark-control-button-shadow);
-        }
-        body:not(.light-theme) #deck-toggle-button:hover {
-            background-color: var(--dark-control-button-hover-bg);
-        }
-
-        /* Light Theme specific styles for Language Toggle button */
-        body.light-theme #deck-toggle-button {
             background-color: var(--light-control-button-bg);
             border: 1px solid var(--light-control-button-border);
             color: var(--light-control-button-text);
             box-shadow: var(--light-control-button-shadow);
         }
-        body.light-theme #deck-toggle-button:hover {
-            background-color: var(--light-control-button-hover-bg);
+        /* New hover effect for the language button */
+        #deck-toggle-button:hover {
+            background-color: #FFEB3B; /* Yellow on hover */
         }
 
-        /* Theme Toggle Button Styles (now uses control button variables) */
-        #theme-toggle {
-            width: 40px;
-            height: 40px;
-            padding: 0;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-        }
-        #theme-toggle svg {
-            width: 24px;
-            height: 24px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 1.5;
-        }
-
-        /* Dark Theme specific styles for Theme Toggle button */
-        body:not(.light-theme) #theme-toggle {
-            background-color: var(--dark-control-button-bg);
-            border: 1px solid var(--dark-control-button-border);
-            color: var(--dark-control-button-text);
-            box-shadow: var(--dark-control-button-shadow);
-        }
-        body:not(.light-theme) #theme-toggle:hover {
-            background-color: var(--dark-control-button-hover-bg);
-        }
-
-        /* Light Theme specific styles for Theme Toggle button */
-        body.light-theme #theme-toggle {
-            background-color: var(--light-control-button-bg);
-            border: 1px solid var(--light-control-button-border);
-            color: var(--light-control-button-text);
-            box-shadow: var(--light-control-button-shadow);
-        }
-        body.light-theme #theme-toggle:hover {
-            background-color: var(--light-control-button-hover-bg);
-        }
-
-        /* Print Button Styles (now uses control button variables) */
+        /* Print Button Styles - Updated for larger size */
         #print-button {
-            width: 40px;
-            height: 40px;
+            width: 48px; /* Increased width */
+            height: 48px; /* Increased height */
             padding: 0;
             border-radius: 50%;
             display: flex;
@@ -295,35 +198,21 @@
             align-items: center;
             z-index: 10;
             transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-        }
-        #print-button svg {
-            width: 24px;
-            height: 24px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 1.5;
-        }
-
-        /* Dark Theme specific styles for Print Button */
-        body:not(.light-theme) #print-button {
-            background-color: var(--dark-control-button-bg);
-            border: 1px solid var(--dark-control-button-border);
-            color: var(--dark-control-button-text);
-            box-shadow: var(--dark-control-button-shadow);
-        }
-        body:not(.light-theme) #print-button:hover {
-            background-color: var(--dark-control-button-hover-bg);
-        }
-
-        /* Light Theme specific styles for Print Button */
-        body.light-theme #print-button {
             background-color: var(--light-control-button-bg);
             border: 1px solid var(--light-control-button-border);
             color: var(--light-control-button-text);
             box-shadow: var(--light-control-button-shadow);
         }
-        body.light-theme #print-button:hover {
-            background-color: var(--light-control-button-hover-bg);
+        /* New hover effect for the print button */
+        #print-button:hover {
+            background-color: #FFEB3B; /* Yellow on hover */
+        }
+        #print-button svg {
+            width: 28px; /* Increased SVG size */
+            height: 28px; /* Increased SVG size */
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 1.5;
         }
 
         #main-title {
@@ -333,8 +222,8 @@
         .title-image {
             display: block;
             margin: 0.5rem auto 1rem auto;
-            width: 80%;
-            max-width: 200px;
+            width: 90%; /* Increased width */
+            max-width: 250px; /* Increased max-width */
             height: auto;
             border-radius: 0.5rem;
         }
@@ -352,10 +241,9 @@
                 align-items: center;
                 gap: 20px;
             }
-            /* Changed width from 90% to 100% to ensure both containers are equal width on mobile */
             .container, .card-display {
                 width: 100%;
-                height: auto; /* Revert to auto height on mobile to prevent overflow */
+                height: auto;
             }
             .card-signification {
                 flex-grow: 0;
@@ -371,9 +259,7 @@
 
             <div class="language-theme-controls">
                 <button id="deck-toggle-button" class="deck-button" data-deck-id="french">FR</button>
-                <button id="theme-toggle" aria-label="Toggle theme">
-                    <span id="theme-icon"></span>
-                </button>
+                <!-- The theme toggle button has been removed -->
                 <button id="print-button" aria-label="Print PDF">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer">
                         <polyline points="6 9 6 2 18 2 18 9"></polyline>
@@ -412,7 +298,7 @@
                 { name: "EIGHT", signification: "The hero faces the greatest challenge yet and experiences death and rebirth.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/08Scorpius.png" },
                 { name: "NINE", signification: "The hero experiences the consequences of surviving death.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/09Sagittarius.png" },
                 { name: "TEN", signification: "The hero returns to the ordinary world or continues to an ultimate destination.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/10Capricornus.png" },
-                { name: "ELEVEN", signification: "The hero experiences a final moment of death and rebirth so they are pure when they reenter the ordinary world.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/11Aquarius.png" },
+                { name: "ONZE", signification: "The hero experiences a final moment of death and rebirth so they are pure when they reenter the ordinary world.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/11Aquarius.png" },
                 { name: "TWELVE", signification: "The hero returns with something to improve the ordinary world.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.ENG/12Pisces.png" }
             ],
             "french": [
@@ -435,8 +321,6 @@
         const mainTitle = document.getElementById('main-title');
         const deckToggleButton = document.getElementById('deck-toggle-button');
         const drawCardButton = document.getElementById('draw-card-button');
-        const themeToggleButton = document.getElementById('theme-toggle');
-        const themeIconSpan = document.getElementById('theme-icon');
         const printButton = document.getElementById('print-button');
         
         // References to the new card display elements
@@ -471,45 +355,6 @@
                 deckToggleButton.textContent = 'EN'; // Changed text to EN
                 deckToggleButton.dataset.deckId = 'english'; // Set data attribute for next click
                 printButton.dataset.pdfUrl = frenchPdfUrl; // Set PDF URL for French version
-            }
-        }
-
-        /**
-         * Toggles between dark and light themes.
-         */
-        function toggleTheme() {
-            const isLightTheme = document.body.classList.toggle('light-theme');
-            localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
-            updateThemeIcon(isLightTheme);
-        }
-
-        /**
-         * Updates the theme toggle button icon based on the current theme.
-         * @param {boolean} isLightTheme - True if the light theme is active, false otherwise.
-         */
-        function updateThemeIcon(isLightTheme) {
-            if (isLightTheme) {
-                // In light theme, show Moon icon
-                themeIconSpan.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
-                    </svg>
-                `;
-            } else {
-                // In dark theme, show Sun icon
-                themeIconSpan.innerHTML = `
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="6" />
-                        <line x1="12" y1="1" x2="12" y2="3" />
-                        <line x1="12" y1="21" x2="12" y2="23" />
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
-                        <line x1="1" y1="12" x2="3" y2="12" />
-                        <line x1="21" y1="12" x2="23" y2="12" />
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
-                    </svg>
-                `;
             }
         }
 
@@ -584,22 +429,9 @@
             }
         });
 
-        // Event listener for theme toggle button
-        themeToggleButton.addEventListener('click', toggleTheme);
-
         // Set initial active button, text, and theme on load
         window.onload = () => {
             setActiveDeckButton('english'); // Set initial state for the deck toggle button
-
-            // Apply saved theme preference
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.body.classList.add('light-theme');
-                updateThemeIcon(true);
-            } else {
-                document.body.classList.remove('light-theme');
-                updateThemeIcon(false);
-            }
         };
     </script>
 </body>
