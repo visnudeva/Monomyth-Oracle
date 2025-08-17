@@ -379,11 +379,23 @@
                     cardDisplayImage.src = imageUrl;
                     cardDisplayImage.alt = cardName + " Tarot Card";
                     cardDisplay.classList.add('reveal'); // Trigger the new reveal animation
+                    
+                    // After the card is revealed, check if it's a small screen and scroll
+                    const isSmallScreen = window.matchMedia('(max-width: 900px)').matches;
+                    if (isSmallScreen) {
+                        cardDisplay.scrollIntoView({ behavior: 'smooth' });
+                    }
                 };
                 tempImage.onerror = () => {
                     cardDisplayImage.src = 'https://placehold.co/200x350/CCCCCC/000000?text=Card+Art+Missing';
                     cardDisplayImage.alt = 'Card Art Missing';
                     cardDisplay.classList.add('reveal'); // Trigger the reveal animation for placeholder
+                    
+                    // After the card is revealed, check if it's a small screen and scroll
+                    const isSmallScreen = window.matchMedia('(max-width: 900px)').matches;
+                    if (isSmallScreen) {
+                        cardDisplay.scrollIntoView({ behavior: 'smooth' });
+                    }
                 };
                 tempImage.src = imageUrl;
             }, 100); // Small delay to ensure the transition runs
