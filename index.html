@@ -65,7 +65,8 @@
             border-radius: 1rem;
             padding: 2rem;
             flex: 1; /* Make this column grow to fill available space */
-            height: 700px;
+            /* UPDATED: Reduced height to 800px */
+            height: 800px;
             max-width: 90vw;
             text-align: center;
             display: flex;
@@ -81,7 +82,8 @@
             border-radius: 1rem;
             padding: 2rem;
             flex: 1; /* Make this column grow to fill available space */
-            height: 700px;
+            /* UPDATED: Reduced height to 800px for consistency */
+            height: 800px;
             max-width: 90vw;
             text-align: center;
             display: flex;
@@ -111,7 +113,8 @@
         /* Ensure the card image fits within the flex container */
         .card-image {
             max-width: 100%;
-            max-height: 65%;
+            /* UPDATED: Changed max-height to 70% */
+            max-height: 70%;
             height: auto;
             object-fit: contain; /* Prevents distortion */
             border-radius: 0.5rem;
@@ -138,17 +141,18 @@
             outline: none;
         }
 
-        /* Draw Card Button Styles - Updated for larger size */
+        /* Draw Card Button Styles */
         #draw-card-button {
             width: 80%;
-            max-width: 250px; /* Increased max-width */
+            max-width: 250px;
             margin: 0 auto;
             background-color: var(--draw-card-button-bg-light);
             border: 1px solid var(--draw-card-button-border-light);
             color: var(--draw-card-button-text-light);
             box-shadow: var(--draw-card-button-shadow-light);
-            padding: 1rem 1.5rem; /* Increased padding */
-            font-size: 1.125rem; /* Increased font size */
+            padding: 1rem 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
         }
         #draw-card-button:hover {
             background-color: var(--draw-card-button-hover-bg-light);
@@ -161,20 +165,20 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 2rem; /* Increased gap between buttons */
+            gap: 2rem;
             margin-bottom: 0.5rem;
         }
 
-        /* Language Toggle Button Styles - Updated for larger size */
+        /* Language Toggle Button Styles */
         #deck-toggle-button {
-            width: 48px; /* Increased width */
-            height: 48px; /* Increased height */
+            width: 55px;
+            height: 55px;
             padding: 0;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1rem; /* Increased font size */
+            font-size: 1.2rem;
             font-weight: 700;
             transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
             background-color: var(--light-control-button-bg);
@@ -187,10 +191,10 @@
             background-color: #FFEB3B; /* Yellow on hover */
         }
 
-        /* Print Button Styles - Updated for larger size */
+        /* Print Button Styles */
         #print-button {
-            width: 48px; /* Increased width */
-            height: 48px; /* Increased height */
+            width: 55px;
+            height: 55px;
             padding: 0;
             border-radius: 50%;
             display: flex;
@@ -208,8 +212,8 @@
             background-color: #FFEB3B; /* Yellow on hover */
         }
         #print-button svg {
-            width: 28px; /* Increased SVG size */
-            height: 28px; /* Increased SVG size */
+            width: 32px;
+            height: 32px;
             stroke: currentColor;
             fill: none;
             stroke-width: 1.5;
@@ -221,9 +225,9 @@
 
         .title-image {
             display: block;
-            margin: 0.5rem auto 1rem auto;
-            width: 90%; /* Increased width */
-            max-width: 250px; /* Increased max-width */
+            margin: 0.5rem auto 0.5rem auto; /* Adjusted bottom margin */
+            width: 90%;
+            max-width: 280px;
             height: auto;
             border-radius: 0.5rem;
         }
@@ -248,6 +252,9 @@
             .card-signification {
                 flex-grow: 0;
             }
+            .language-theme-controls {
+                margin-top: 1rem; /* Added margin-top to separate buttons from title */
+            }
         }
     </style>
 </head>
@@ -255,7 +262,7 @@
     <div class="main-content">
         <!-- Main application container -->
         <div class="container">
-            <h1 id="main-title" class="text-3xl font-bold mb-8">Monomyth<br>Oracle</h1>
+            <h1 id="main-title" class="text-3xl font-bold mb-1">Monomyth<br>Oracle</h1>
 
             <div class="language-theme-controls">
                 <button id="deck-toggle-button" class="deck-button" data-deck-id="french">FR</button>
@@ -313,7 +320,7 @@
                 { name: "NEUF", signification: "Le héros subit les conséquences de survivre à la mort.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/09Sagittarius.png" },
                 { name: "DIX", signification: "Le héros retourne dans le monde ordinaire ou continue vers une destination ultime.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/10Capricornus.png" },
                 { name: "ONZE", signification: "Le héros vit un dernier moment de mort et de renaissance afin qu'il soit pur lorsqu'il re-entre dans le monde ordinaire.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/11Aquarius.png" },
-                { name: "DOUZE", signification: "Le héros revient avec quelque chose pour améliorer le monde ordinaire.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/12Pisces.png" }
+                { name: "TWELVE", signification: "The hero returns with something to improve the ordinary world.", imageUrl: "https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/f2957f307abcd31e92c6107d066710267f8a4d54/2.0.FR/12Pisces.png" }
             ]
         };
 
