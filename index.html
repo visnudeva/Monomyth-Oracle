@@ -383,7 +383,8 @@
                     // After the card is revealed, check if it's a small screen and scroll
                     const isSmallScreen = window.matchMedia('(max-width: 900px)').matches;
                     if (isSmallScreen) {
-                        cardDisplay.scrollIntoView({ behavior: 'smooth' });
+                        // Scroll to center the card in the viewport
+                        cardDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 };
                 tempImage.onerror = () => {
@@ -394,7 +395,8 @@
                     // After the card is revealed, check if it's a small screen and scroll
                     const isSmallScreen = window.matchMedia('(max-width: 900px)').matches;
                     if (isSmallScreen) {
-                        cardDisplay.scrollIntoView({ behavior: 'smooth' });
+                        // Scroll to center the card in the viewport
+                        cardDisplay.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 };
                 tempImage.src = imageUrl;
