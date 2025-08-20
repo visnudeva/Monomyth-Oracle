@@ -65,8 +65,7 @@
             border-radius: 1rem;
             padding: 2rem;
             flex: 1; /* Make this column grow to fill available space */
-            /* UPDATED: Reduced height to 800px */
-            height: 800px;
+            height: 800px; /* The requested height */
             max-width: 90vw;
             text-align: center;
             display: flex;
@@ -82,8 +81,7 @@
             border-radius: 1rem;
             padding: 2rem;
             flex: 1; /* Make this column grow to fill available space */
-            /* UPDATED: Reduced height to 800px for consistency */
-            height: 800px;
+            height: 800px; /* The requested height for consistency */
             max-width: 90vw;
             text-align: center;
             display: flex;
@@ -113,7 +111,6 @@
         /* Ensure the card image fits within the flex container */
         .card-image {
             max-width: 100%;
-            /* UPDATED: Changed max-height to 70% */
             max-height: 70%;
             height: auto;
             object-fit: contain; /* Prevents distortion */
@@ -221,6 +218,7 @@
 
         #main-title {
             color: var(--main-title-color);
+            margin-bottom: 0.5rem;
         }
 
         .title-image {
@@ -262,7 +260,7 @@
     <div class="main-content">
         <!-- Main application container -->
         <div class="container">
-            <h1 id="main-title" class="text-3xl font-bold mb-1">Monomyth<br>Oracle</h1>
+            <h1 id="main-title" class="text-3xl font-bold">Monomyth<br>Oracle</h1>
 
             <div class="language-theme-controls">
                 <button id="deck-toggle-button" class="deck-button" data-deck-id="french">FR</button>
