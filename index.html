@@ -65,7 +65,7 @@
             border-radius: 1rem;
             padding: 2rem;
             flex: 1; /* Make this column grow to fill available space */
-            height: 800px; /* The requested height */
+            height: 800px;
             max-width: 90vw;
             text-align: center;
             display: flex;
@@ -81,7 +81,7 @@
             border-radius: 1rem;
             padding: 2rem;
             flex: 1; /* Make this column grow to fill available space */
-            height: 800px; /* The requested height for consistency */
+            height: 800px;
             max-width: 90vw;
             text-align: center;
             display: flex;
@@ -164,6 +164,8 @@
             align-items: center;
             gap: 2rem;
             margin-bottom: 0.5rem;
+            /* New rule to make the buttons closer to the image */
+            margin-top: -1.25rem; 
         }
 
         /* Language Toggle Button Styles */
@@ -223,7 +225,7 @@
 
         .title-image {
             display: block;
-            margin: 0.5rem auto 0.5rem auto; /* Adjusted bottom margin */
+            margin: 0.5rem auto 0.5rem auto;
             width: 90%;
             max-width: 280px;
             height: auto;
@@ -251,7 +253,7 @@
                 flex-grow: 0;
             }
             .language-theme-controls {
-                margin-top: 1rem; /* Added margin-top to separate buttons from title */
+                margin-top: 1rem;
             }
         }
     </style>
@@ -261,6 +263,10 @@
         <!-- Main application container -->
         <div class="container">
             <h1 id="main-title" class="text-3xl font-bold">Monomyth<br>Oracle</h1>
+
+            <button id="draw-card-button">Draw a Card</button>
+
+            <img id="title-image" class="title-image" src="https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/main/MonomythOracle.png" alt="Monomyth Oracle Logo">
 
             <div class="language-theme-controls">
                 <button id="deck-toggle-button" class="deck-button" data-deck-id="french">FR</button>
@@ -273,10 +279,6 @@
                     </svg>
                 </button>
             </div>
-
-            <img id="title-image" class="title-image" src="https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/main/MonomythOracle.png" alt="Monomyth Oracle Logo">
-
-            <button id="draw-card-button">Draw a Card</button>
         </div>
 
         <!-- New container for displaying the drawn card on the side -->
@@ -393,7 +395,7 @@
                     }
                 };
                 tempImage.onerror = () => {
-                    cardDisplayImage.src = 'https://placehold.co/200x350/CCCCCC/000000?text=Card+Art+Missing';
+                    cardDisplayImage.src = 'https://placehold.co/200x350/CCCCCC/000000?text=Error';
                     cardDisplayImage.alt = 'Card Art Missing';
                     cardDisplay.classList.add('reveal'); // Trigger the reveal animation for placeholder
                     
