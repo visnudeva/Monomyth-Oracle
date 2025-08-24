@@ -1,4 +1,3 @@
-<!-- Author: https://visnudeva.carrd.co/ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,30 +7,30 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables for Light Theme, now the default */
+        /* CSS Variables for a Dark, Modern Theme */
         :root {
-            --bg-color: #ffffff;
-            --text-color: #000000; /* Black for text in light theme */
-            --container-bg: #ffffff;
-            --card-display-bg: #ffffff;
-            --card-name-color: #dc3545;
-            --main-title-color: #007bff;
+            --bg-color: #0d1117;
+            --text-color: #e0e0e0;
+            --container-bg: #161b22;
+            --card-display-bg: #161b22;
+            --card-name-color: #ffc400; /* Gold */
+            --main-title-color: #7b94ff; /* Lighter Blue */
 
-            /* Draw Card button in light theme */
-            --draw-card-button-bg-light: #ffffff;
-            --draw-card-button-border-light: #dc3545;
-            --draw-card-button-text-light: #dc3545;
-            --draw-card-button-hover-bg-light: #dc3545;
-            --draw-card-button-hover-text-light: #ffffff;
-            --draw-card-button-hover-border-light: #dc3545;
-            --draw-card-button-shadow-light: 0 0 10px rgba(220, 53, 69, 0.7);
+            /* Draw Card button styles */
+            --draw-card-button-bg: transparent;
+            --draw-card-button-border: #ffd700;
+            --draw-card-button-text: #ffd700;
+            --draw-card-button-hover-bg: #ffd700;
+            --draw-card-button-hover-text: #0d1117;
+            --draw-card-button-shadow: 0 0 20px rgba(255, 215, 0, 0.7);
 
             /* Control buttons (Language, Print) */
-            --light-control-button-bg: #ffffff;
-            --light-control-button-border: var(--text-color); /* Black border */
-            --light-control-button-text: var(--text-color); /* Black text */
-            --light-control-button-hover-bg: #f0f0f0; /* Slight hover effect */
-            --light-control-button-shadow: 0 0 10px rgba(0, 123, 255, 0.7); /* Blue shadow */
+            --control-button-bg: transparent;
+            --control-button-border: #7b94ff;
+            --control-button-text: #7b94ff;
+            --control-button-hover-bg: #7b94ff;
+            --control-button-hover-text: #0d1117;
+            --control-button-shadow: 0 0 15px rgba(123, 148, 255, 0.7);
         }
 
         body {
@@ -43,7 +42,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 2rem;
             box-sizing: border-box;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
@@ -55,40 +54,43 @@
             max-width: 90vw;
             width: 100%;
             justify-content: center;
-            align-items: flex-start; /* Align items to the top */
+            align-items: flex-start;
         }
 
         /* The original container, now acting as the left column */
         .container {
-            position: relative;
             background-color: var(--container-bg);
             border-radius: 1rem;
-            padding: 2rem;
-            flex: 1; /* Make this column grow to fill available space */
+            padding: 2.5rem;
+            flex: 1;
             height: 800px;
             max-width: 90vw;
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            gap: 0.5rem;
+            gap: 1rem;
             transition: background-color 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #282f3a;
         }
         
         /* The new container to display the card on the side */
         .card-display {
             background-color: var(--card-display-bg);
             border-radius: 1rem;
-            padding: 2rem;
-            flex: 1; /* Make this column grow to fill available space */
+            padding: 2.5rem;
+            flex: 1;
             height: 800px;
             max-width: 90vw;
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            gap: 1rem;
+            gap: 1.5rem;
             transition: background-color 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #282f3a;
         }
 
         /* Initial hidden state for the card display content */
@@ -96,8 +98,8 @@
         .card-display .card-name,
         .card-display .card-signification {
             opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+            transform: scale(0.95);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
         
         /* Reveal state for the card display content */
@@ -105,23 +107,30 @@
         .card-display.reveal .card-name,
         .card-display.reveal .card-signification {
             opacity: 1;
-            transform: translateY(0);
+            transform: scale(1);
         }
 
-        /* Ensure the card image fits within the flex container */
+        /* Ensure the card image fits and is centered */
         .card-image {
-            max-width: 100%;
-            max-height: 70%;
-            height: auto;
-            object-fit: contain; /* Prevents distortion */
-            border-radius: 0.5rem;
-            transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+            max-width: 100%; /* Keep this to prevent overflow */
+            max-width: 300px; /* NEW: Sets a max width for the image to prevent it from stretching */
+            height: auto; /* Maintain aspect ratio */
+            margin: 0 auto; /* NEW: Centers the image horizontally */
+            object-fit: contain;
+            border-radius: 0.75rem;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            transition: box-shadow 0.3s ease;
+            max-height: 50vh; /* Limit max height to 50% of viewport height */
+        }
+
+        .card-image:hover {
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.8);
         }
 
         /* Allow the signification text to grow and fill remaining space */
         .card-signification {
             flex-grow: 1;
-            overflow-y: auto; /* Adds a scrollbar if the text overflows */
+            overflow-y: auto;
             font-size: 1.1rem;
             line-height: 1.6;
             color: var(--text-color);
@@ -129,90 +138,71 @@
         }
 
         button {
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 1.25rem;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
             outline: none;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
         }
 
         /* Draw Card Button Styles */
         #draw-card-button {
             width: 80%;
-            max-width: 250px;
+            max-width: 300px;
             margin: 0 auto;
-            background-color: var(--draw-card-button-bg-light);
-            border: 1px solid var(--draw-card-button-border-light);
-            color: var(--draw-card-button-text-light);
-            box-shadow: var(--draw-card-button-shadow-light);
-            padding: 1rem 1.5rem;
-            font-size: 1.5rem;
-            font-weight: 700;
+            background-color: var(--draw-card-button-bg);
+            border: 1px solid var(--draw-card-button-border);
+            color: var(--draw-card-button-text);
+            box-shadow: var(--draw-card-button-shadow);
         }
         #draw-card-button:hover {
-            background-color: var(--draw-card-button-hover-bg-light);
-            color: var(--draw-card-button-hover-text-light);
-            border-color: var(--draw-card-button-hover-border-light);
+            background-color: var(--draw-card-button-hover-bg);
+            color: var(--draw-card-button-hover-text);
+            border-color: var(--draw-card-button-hover-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 1);
         }
 
-        /* Language, Theme, and Print Controls Container */
-        .language-theme-controls {
+        /* Language and Print Controls Container */
+        .language-controls {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 2rem;
-            margin-bottom: 0.5rem;
-            /* New rule to make the buttons closer to the image */
-            margin-top: -1.25rem; 
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         /* Language Toggle Button Styles */
-        #deck-toggle-button {
-            width: 55px;
-            height: 55px;
+        #deck-toggle-button, #print-button {
+            width: 50px;
+            height: 50px;
             padding: 0;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-            background-color: var(--light-control-button-bg);
-            border: 1px solid var(--light-control-button-border);
-            color: var(--light-control-button-text);
-            box-shadow: var(--light-control-button-shadow);
-        }
-        /* New hover effect for the language button */
-        #deck-toggle-button:hover {
-            background-color: #FFEB3B; /* Yellow on hover */
+            background-color: var(--control-button-bg);
+            border: 1px solid var(--control-button-border);
+            color: var(--control-button-text);
+            box-shadow: var(--control-button-shadow);
         }
 
-        /* Print Button Styles */
-        #print-button {
-            width: 55px;
-            height: 55px;
-            padding: 0;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
-            background-color: var(--light-control-button-bg);
-            border: 1px solid var(--light-control-button-border);
-            color: var(--light-control-button-text);
-            box-shadow: var(--light-control-button-shadow);
+        /* Hover effect for all control buttons */
+        #deck-toggle-button:hover, #print-button:hover {
+            background-color: var(--control-button-hover-bg);
+            color: var(--control-button-hover-text);
+            box-shadow: 0 0 20px rgba(123, 148, 255, 1);
+            transform: scale(1.1);
         }
-        /* New hover effect for the print button */
-        #print-button:hover {
-            background-color: #FFEB3B; /* Yellow on hover */
-        }
+
         #print-button svg {
-            width: 32px;
-            height: 32px;
+            width: 28px;
+            height: 28px;
             stroke: currentColor;
             fill: none;
             stroke-width: 1.5;
@@ -221,21 +211,32 @@
         #main-title {
             color: var(--main-title-color);
             margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         .title-image {
             display: block;
             margin: 0.5rem auto 0.5rem auto;
             width: 90%;
-            max-width: 280px;
+            max-width: 300px;
             height: auto;
-            border-radius: 0.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
         }
 
         .card-name {
-            font-size: 1.75rem;
+            font-size: 2rem;
             font-weight: 700;
             color: var(--card-name-color);
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* New styling for the placeholder text */
+        .card-placeholder-text {
+            color: #7b94ff;
+            font-style: italic;
         }
 
         /* Responsive adjustments */
@@ -243,17 +244,25 @@
             .main-content {
                 flex-direction: column;
                 align-items: center;
-                gap: 20px;
+                gap: 2rem;
             }
             .container, .card-display {
                 width: 100%;
                 height: auto;
+                padding: 1.5rem;
             }
             .card-signification {
                 flex-grow: 0;
+                max-height: 200px;
             }
-            .language-theme-controls {
+            .language-controls {
                 margin-top: 1rem;
+            }
+            #main-title {
+                font-size: 2rem;
+            }
+            #draw-card-button {
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -263,14 +272,13 @@
         <!-- Main application container -->
         <div class="container">
             <h1 id="main-title" class="text-3xl font-bold">Monomyth<br>Oracle</h1>
-
+            
             <button id="draw-card-button">Draw a Card</button>
 
             <img id="title-image" class="title-image" src="https://raw.githubusercontent.com/visnudeva/Monomyth-Oracle/main/MonomythOracle.png" alt="Monomyth Oracle Logo">
 
-            <div class="language-theme-controls">
+            <div class="language-controls">
                 <button id="deck-toggle-button" class="deck-button" data-deck-id="french">FR</button>
-                <!-- The theme toggle button has been removed -->
                 <button id="print-button" aria-label="Print PDF">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-printer">
                         <polyline points="6 9 6 2 18 2 18 9"></polyline>
@@ -286,7 +294,7 @@
             <h2 id="card-display-title" class="card-name mb-4">Your Card</h2>
             <img id="card-display-image" class="card-image" src="https://placehold.co/200x350/CCCCCC/000000?text=Draw+a+Card" alt="Placeholder">
             <div id="card-display-signification" class="card-signification mt-4">
-                <p>Click "Draw a Card" to reveal your card's meaning.</p>
+                <p class="card-placeholder-text">Click "Draw a Card" to reveal your card's meaning.</p>
             </div>
         </div>
     </div>
